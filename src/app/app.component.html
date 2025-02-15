@@ -1,0 +1,44 @@
+<div class="container">
+  <!-- Search field with button -->
+  <div class="max-width">
+    <div class="search">
+      <input [(ngModel)]="name" type="text" (keyup.enter)="getWeather()" class="searchTerm" placeholder="Enter city">
+      <button (click)="getWeather()" class="searchButton">
+        <img src="../assets/images/search.svg" alt="icon">
+     </button>
+   </div>
+  </div>
+
+  <!-- Loading view with indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="isError" class="warning-main">
+    <div class="warning-container" (click)="getWeather()">
+      <img src="../assets/images/warning.svg" alt="">
+      <span>Retry</span>
+    </div>
+  </div>
+
+  <!-- Current Weather -->
+  <div *ngIf="currentWeather && !isLoading" class="current-weather">
+    <h1>{{ currentWeather.temp }}°</h1>
+    <h2>{{ currentWeather.name }}</h2>
+  </div>
+
+  <!-- 7-Day Forecast -->
+  <div *ngIf="forecast.length" class="forecast-list-section max-width">
+    <ul>
+      <li *ngFor="let day of forecast">
+        <p class="date"><strong>{{ getFormattedDate(day.date) }}</strong></p>
+        <div class="icon-section">
+          <img [src]="day.icon" alt="Weather Icon" width="50" />
+          <p>{{ day.description }}</p>
+        </div>
+        <p class="min-max-temp">{{ day.minTemp }}° / {{ day.maxTemp }}°</p>
+      </li>
+    </ul>
+  </div>
+</div>
